@@ -69,8 +69,8 @@ segment <- function(x, alpha=.05, segMedianT=NULL, minSeg=3,
 		segMedianT <- c()
 		#segMedianT[1] <- mean(x, na.rm=TRUE)+2*sd(x, na.rm=TRUE)
 		#segMedianT[2] <- mean(x, na.rm=TRUE)-2*sd(x, na.rm=TRUE)
-		segMedianT[1] <- globalMedian+2*sd(x, na.rm=TRUE)
-		segMedianT[2] <- globalMedian-2*sd(x, na.rm=TRUE)
+		segMedianT[1] <- globalMedian+2*sd(pmax(pmin(x,1),-1), na.rm=TRUE)
+		segMedianT[2] <- globalMedian-2*sd(pmax(pmin(x,1),-1), na.rm=TRUE)
 		
 	} else {
 		if (length(segMedianT)==1){
