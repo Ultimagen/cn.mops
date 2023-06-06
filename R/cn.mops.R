@@ -251,8 +251,6 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 		minWidth=3,segAlgorithm="fast",minReadCount=5,useMedian=FALSE,
 		returnPosterior=FALSE,...){
 	
-	#browser()
-	
 	############ check input ##################################################
 	if(any(class(input)=="GRanges")){
 		inputType <- "GRanges"
@@ -511,8 +509,6 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 				parallel::stopCluster(cl)
 			}
 			
-			#browser()
-			
 			#resSegm <- lapply(resSegm,function(x) x <- x[order(x$chr,x$start), ])
 			segDf <- cbind(do.call(rbind,resSegm),
 					rep(colnames(X),sapply(resSegm,nrow)))
@@ -568,7 +564,6 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 			colnames(callsS) <- colnames(X)
 			for (chrom in chrOrder){
 				chrIdx <- chrDf[chrom,1]:chrDf[chrom,2]
-				#saveRDS(sINI, "segmentation_input.rds")
 				if (parallel==0){
 					resSegmList[[chrom]] <- apply(sINI[chrIdx, ,drop=FALSE],2,
 							segment,
