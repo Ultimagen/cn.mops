@@ -251,6 +251,8 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 		minWidth=3,segAlgorithm="fast",minReadCount=5,useMedian=FALSE,
 		returnPosterior=FALSE,...){
 	
+	#browser()
+	
 	############ check input ##################################################
 	if(any(class(input)=="GRanges")){
 		inputType <- "GRanges"
@@ -509,6 +511,8 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 				parallel::stopCluster(cl)
 			}
 			
+			#browser()
+			
 			#resSegm <- lapply(resSegm,function(x) x <- x[order(x$chr,x$start), ])
 			segDf <- cbind(do.call(rbind,resSegm),
 					rep(colnames(X),sapply(resSegm,nrow)))
@@ -564,15 +568,21 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 			colnames(callsS) <- colnames(X)
 			for (chrom in chrOrder){
 				chrIdx <- chrDf[chrom,1]:chrDf[chrom,2]
+				
 				if (parallel==0){
+				  #saveRDS(sINI,"/data/CNV_ambry/BRCA/debug/sINI.rds")
+				  #saveRDS(chrIdx,"/data/CNV_ambry/BRCA/debug/chrIdx.rds")
 					resSegmList[[chrom]] <- apply(sINI[chrIdx, ,drop=FALSE],2,
 							segment,
-							minSeg=minWidth,...)
+							minSeg=minWidth,
+							alpha=0.065,...)
+					message(paste("alpha: ",alpha,sep=""))
+					saveRDS(resSegmList[[chrom]],"/data/CNV_ambry/BRCA/debug/resSegmList_chr17.rds")
 				} else {
 					cl <- parallel::makeCluster(as.integer(parallel),type="SOCK")
 					parallel::clusterEvalQ(cl,"segment")
 					resSegmList[[chrom]] <- parallel::parApply(cl,sINI[chrIdx, ,drop=FALSE],2,
-							segment,minSeg=minWidth,...)
+							segment,minSeg=minWidth,alpha=0.065,...)
 					parallel::stopCluster(cl)
 				}
 				
