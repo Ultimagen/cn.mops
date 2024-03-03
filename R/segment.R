@@ -66,15 +66,12 @@ segment <- function(x, alpha=.05, segMedianT=NULL, minSeg=3,
 	}
 	
 	if (is.null(segMedianT)) {
-		segMedianT <- c()
-		#segMedianT[1] <- mean(x, na.rm=TRUE)+2*sd(x, na.rm=TRUE)
-		#segMedianT[2] <- mean(x, na.rm=TRUE)-2*sd(x, na.rm=TRUE)
-		#segMedianT[1] <- globalMedian+2*sd(x, na.rm=TRUE)
-		#segMedianT[2] <- globalMedian-2*sd(x, na.rm=TRUE)
-		segMedianT[1] <- 0.25
-		segMedianT[2] <- -0.5
-		message(paste("segMedianT: ",segMedianT,sep=""))
-		
+		segMedianT[1] <- globalMedian+2*sd(pmax(pmin(x,1),-1), na.rm=TRUE)
+		segMedianT[2] <- globalMedian-2*sd(pmax(pmin(x,1),-1), na.rm=TRUE)
+		# limit the estimate of what the noisy sample is
+		segMedianT[1] <- pmin(segMedianT[1],0.5)
+		segMedianT[2] <- pmax(segMedianT[2],-0.5)
+	
 	} else {
 		if (length(segMedianT)==1){
 			segMedianT <- c(abs(segMedianT), -abs(segMedianT))
