@@ -249,7 +249,7 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 		norm=1, normType="poisson",sizeFactor="mean",normQu=0.25, quSizeFactor=0.75,
 		upperThreshold=0.5,lowerThreshold=-0.9,
 		minWidth=3,segAlgorithm="fast",minReadCount=5,useMedian=FALSE,
-		returnPosterior=FALSE,moderate_cnvs=FALSE,...){
+		returnPosterior=FALSE,moderate_amplifications=FALSE,...){
 	
 	#browser()
 	
@@ -570,7 +570,7 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 				chrIdx <- chrDf[chrom,1]:chrDf[chrom,2]
 				
 				if (parallel==0){
-					if(moderate_cnvs){
+					if(moderate_amplifications){
 						resSegmList[[chrom]] <- apply(sINI[chrIdx, ,drop=FALSE],2,
 							segment,
 							minSeg=minWidth,
@@ -584,7 +584,7 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 					}
 				} else {
 					
-					if(moderate_cnvs){
+					if(moderate_amplifications){
 						cl <- parallel::makeCluster(as.integer(parallel),type="SOCK")
 						parallel::clusterEvalQ(cl,"segment")
 						resSegmList[[chrom]] <- parallel::parApply(cl,sINI[chrIdx, ,drop=FALSE],2,
