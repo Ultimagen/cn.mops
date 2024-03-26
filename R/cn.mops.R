@@ -251,8 +251,6 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 		minWidth=3,segAlgorithm="fast",minReadCount=5,useMedian=FALSE,
 		returnPosterior=FALSE,moderate_amplifications=FALSE,...){
 	
-	#browser()
-	
 	############ check input ##################################################
 	if(any(class(input)=="GRanges")){
 		inputType <- "GRanges"
@@ -510,8 +508,6 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 						chr=chr,minWidth=minWidth,DNAcopyBdry=DNAcopyBdry,...)
 				parallel::stopCluster(cl)
 			}
-			
-			#browser()
 			
 			#resSegm <- lapply(resSegm,function(x) x <- x[order(x$chr,x$start), ])
 			segDf <- cbind(do.call(rbind,resSegm),
