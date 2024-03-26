@@ -71,7 +71,8 @@ segment <- function(x, alpha=.05, segMedianT=NULL, minSeg=3,
 		segMedianT[2] <- globalMedian-2*sd(pmax(pmin(x,1),-1), na.rm=TRUE)
 		# limit the estimate of what the noisy sample is
 		segMedianT[1] <- pmin(segMedianT[1],0.5)
-		segMedianT[2] <- pmax(segMedianT[2],-0.5)		
+		segMedianT[2] <- pmax(segMedianT[2],-0.5)
+	
 	} else {
 		if (length(segMedianT)==1){
 			segMedianT <- c(abs(segMedianT), -abs(segMedianT))
@@ -99,6 +100,7 @@ segment <- function(x, alpha=.05, segMedianT=NULL, minSeg=3,
 			as.double(cyberWeight))
 	
 	#message("Finished C function.")
+	
 	if (alpha >= 1){
 		alpha <- as.integer(alpha)
 		#message(paste("Number of initial breakpoints: ",alpha))
