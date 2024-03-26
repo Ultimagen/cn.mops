@@ -66,6 +66,7 @@ segment <- function(x, alpha=.05, segMedianT=NULL, minSeg=3,
 	}
 	
 	if (is.null(segMedianT)) {
+		segMedianT <- c()
 		segMedianT[1] <- globalMedian+2*sd(pmax(pmin(x,1),-1), na.rm=TRUE)
 		segMedianT[2] <- globalMedian-2*sd(pmax(pmin(x,1),-1), na.rm=TRUE)
 		# limit the estimate of what the noisy sample is
