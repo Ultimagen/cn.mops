@@ -79,8 +79,6 @@ jobs:
           context: .
           provenance: false
           push: true
-          build-args: |
-            BUILD=${{ inputs.build-type }}
           tags: |
             ${{ steps.ecr-login.outputs.registry }}/${{ env.IMAGE }}:${{ inputs.image-tag || steps.set-tag.outputs.imageTag }}
             us-central1-docker.pkg.dev/ultima-data-307918/ultimagen/${{ env.IMAGE }}:${{ inputs.image-tag || steps.set-tag.outputs.imageTag }}
