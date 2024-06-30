@@ -2,12 +2,10 @@ import filecmp
 import os
 import subprocess
 from os.path import join as pjoin
-from test import get_resource_dir
-
-from ugvc import base_dir
+from . import get_resource_dir
 
 resources_dir = get_resource_dir(__file__)
-script_path = pjoin(base_dir, "cnv/cnv_calling_using_cnmops.R")
+script_path = "cnv/cnv_calling_using_cnmops.R"
 
 
 def test_cnv_calling_using_cnmops(tmpdir):

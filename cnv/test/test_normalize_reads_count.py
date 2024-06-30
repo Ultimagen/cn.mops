@@ -4,12 +4,11 @@ import subprocess
 import pandas as pd
 import numpy as np
 from os.path import join as pjoin
-from test import get_resource_dir
+from . import get_resource_dir
 
-from ugvc import base_dir
 
 resources_dir = get_resource_dir(__file__)
-script_path = pjoin(base_dir, "cnv/normalize_reads_count.R")
+script_path = "cnv/normalize_reads_count.R"
 
 def test_normalize_reads_count(tmpdir):
     in_cohort_reads_count_file = pjoin(resources_dir, "test_rc.rds")
