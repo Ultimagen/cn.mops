@@ -6,9 +6,9 @@ import numpy as np
 from os.path import join as pjoin
 from . import get_resource_dir
 
-
 resources_dir = get_resource_dir(__file__)
 script_path = "cnv/normalize_reads_count.R"
+
 
 def test_normalize_reads_count(tmpdir):
     in_cohort_reads_count_file = pjoin(resources_dir, "test_rc.rds")
@@ -52,6 +52,7 @@ def test_normalize_reads_count_with_ploidy(tmpdir):
     df_ref = pd.read_csv(expected_out_norm_rc)
     assert np.allclose(df.iloc[:, -6], df_ref.iloc[:, -6])
 
+
 def test_normalize_reads_count_without_chrX(tmpdir):
     in_cohort_reads_count_file = pjoin(resources_dir, "test_rc.noX.rds")
     expected_out_norm_rc = pjoin(resources_dir, "cohort_reads_count_noX.norm.csv")
@@ -71,6 +72,7 @@ def test_normalize_reads_count_without_chrX(tmpdir):
     df_ref = pd.read_csv(expected_out_norm_rc)
     assert np.allclose(df.iloc[:, -6], df_ref.iloc[:, -6])
 
+
 def test_normalize_reads_count_without_chrXchrY(tmpdir):
     in_cohort_reads_count_file = pjoin(resources_dir, "test_rc.noXnoY.rds")
     expected_out_norm_rc = pjoin(resources_dir, "cohort_reads_count.norm.noXnoY.csv")
@@ -78,9 +80,6 @@ def test_normalize_reads_count_without_chrXchrY(tmpdir):
     out_file = pjoin(tmpdir, "cohort_reads_count.norm.csv")
     os.chdir(tmpdir)
     cmd = [
-        "ls",
-        "-la",
-        "&&",
         "Rscript",
         "--vanilla",
         script_path,
@@ -88,8 +87,8 @@ def test_normalize_reads_count_without_chrXchrY(tmpdir):
         in_cohort_reads_count_file,
         "--save_csv"
     ]
+    assert subprocess.check_call(["ls", "-la"], cwd=tmpdir) == 0
     assert subprocess.check_call(cmd, cwd=tmpdir) == 0
     df = pd.read_csv(out_file)
     df_ref = pd.read_csv(expected_out_norm_rc)
     assert np.allclose(df.iloc[:, -6], df_ref.iloc[:, -6])
-    
