@@ -1,6 +1,6 @@
 name: cn.mops CI
-on:
-  workflow_dispatch:
+
+on: [push, pull_request]
 
 jobs:
   run-cnv-tests:
