@@ -26,4 +26,9 @@ def test_cnv_calling_using_cnmops(tmpdir):
         "1",
     ]
     assert subprocess.check_call(cmd, cwd=tmpdir) == 0
+    import csv
+    with open(out_file, newline='') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        for row in spamreader:
+            print(', '.join(row))
     assert filecmp.cmp(out_file, expected_out_merged_reads_count_file)

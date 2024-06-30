@@ -87,7 +87,6 @@ def test_normalize_reads_count_without_chrXchrY(tmpdir):
         in_cohort_reads_count_file,
         "--save_csv"
     ]
-    assert subprocess.check_call(["ls", "-la"], cwd=tmpdir) == 0
     assert subprocess.check_call(cmd, cwd=tmpdir) == 0
     df = pd.read_csv(out_file)
     df_ref = pd.read_csv(expected_out_norm_rc)
