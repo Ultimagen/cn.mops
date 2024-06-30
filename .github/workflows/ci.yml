@@ -26,7 +26,7 @@ jobs:
           with:
             context: .
             provenance: false
-            push: true
+            push: false
             tags: cnmops-docker
             cache-from: type=gha
             cache-to: type=gha,mode=max
