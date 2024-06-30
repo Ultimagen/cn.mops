@@ -32,7 +32,9 @@ RUN yum update -y && \
     yum-utils \
     libstdc++-static `# for bedops` \
     glibc-static `# for bedops` \
-    git `# for bedops`
+    git `# for bedops` && \
+    yum clean all && \
+    rm -rf /var/cache/yum
 
 # Download and install R
 RUN wget https://cloud.r-project.org/src/base/R-4/R-4.3.1.tar.gz && \
@@ -60,10 +62,11 @@ ARG SAMTOOLS_VERSION=1.17
 
 RUN wget https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2 && \
  tar -vxjf samtools-${SAMTOOLS_VERSION}.tar.bz2 && \
- rm samtools-${SAMTOOLS_VERSION}.tar.bz2 && \
  cd samtools-${SAMTOOLS_VERSION} && \
  make -j $(nproc) && \
- make install
+ make install && \
+ cd .. && \
+ rm samtools-${SAMTOOLS_VERSION}.tar.bz2 samtools-${SAMTOOLS_VERSION}
 
 # Install samtools
 ARG BEDTOOLS_VERSION=2.31.0
@@ -82,7 +85,9 @@ RUN git clone https://github.com/bedops/bedops.git && \
     cd bedops && \
     make && \
     make install && \
-    cp bin/* /usr/local/bin
+    cp bin/* /usr/local/bin && \
+    cd .. && \
+    rm -rf bedops
 
 # Install required pip modules
 RUN python3.9 -m pip install pandas==2.2.2 pysam==0.22.1 ugbio-core ugbio-cnv
@@ -98,6 +103,9 @@ RUN R -e "BiocManager::install('exomeCopy')"
 
 # Install other necessary R packages
 RUN R -e "install.packages(c('bitops', 'codetools', 'cpp11', 'crayon', 'findpython', 'formatR', 'futile.logger', 'futile.options', 'jsonlite', 'lambda.r', 'magrittr', 'R6', 'RCurl', 'snow'), repos='https://cran.r-project.org')"
+
+# Remove unnecessary files
+RUN rm -rf /tmp/* /var/tmp/* /usr/share/doc /usr/share/man /usr/share/info /var/cache/yum
 
 COPY ./ ./
 
