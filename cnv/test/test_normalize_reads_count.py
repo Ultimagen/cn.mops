@@ -80,6 +80,7 @@ def test_normalize_reads_count_without_chrXchrY(tmpdir):
     cmd = [
         "ls",
         "-la",
+        "&&"
         "Rscript",
         "--vanilla",
         script_path,
