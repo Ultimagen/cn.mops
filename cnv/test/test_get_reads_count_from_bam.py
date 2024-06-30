@@ -16,10 +16,6 @@ def test_get_reads_count_from_bam(tmpdir):
     out_file = pjoin(tmpdir, "out_test.ReadCounts.csv")
 
     cmd = [
-        "conda",
-        "run",
-        "-n",
-        "cn.mops",
         "Rscript",
         "--vanilla",
         script_path,

@@ -23,10 +23,6 @@ def test_create_reads_count_cohort_matrix(tmpdir):
     out_file = pjoin(tmpdir, "merged_cohort_reads_count.csv")
 
     cmd = [
-        "conda",
-        "run",
-        "-n",
-        "cn.mops",
         "Rscript",
         "--vanilla",
         script_path,

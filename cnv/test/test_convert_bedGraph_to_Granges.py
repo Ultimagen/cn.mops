@@ -12,10 +12,6 @@ def test_convert_bedGraph_to_Granges(tmpdir):
     out_file = pjoin(tmpdir, "test.ReadCounts.rds")
 
     cmd = [
-        "conda",
-        "run",
-        "-n",
-        "cn.mops",
         "Rscript",
         "--vanilla",
         script_path,

@@ -17,10 +17,6 @@ def test_normalize_reads_count(tmpdir):
     out_file = pjoin(tmpdir, "cohort_reads_count.norm.csv")
     os.chdir(tmpdir)
     cmd = [
-        "conda",
-        "run",
-        "-n",
-        "cn.mops",
         "Rscript",
         "--vanilla",
         script_path,
@@ -42,10 +38,6 @@ def test_normalize_reads_count_with_ploidy(tmpdir):
     out_file = pjoin(tmpdir, "cohort_reads_count.norm.csv")
     os.chdir(tmpdir)
     cmd = [
-        "conda",
-        "run",
-        "-n",
-        "cn.mops",
         "Rscript",
         "--vanilla",
         script_path,
@@ -67,10 +59,6 @@ def test_normalize_reads_count_without_chrX(tmpdir):
     out_file = pjoin(tmpdir, "cohort_reads_count.norm.csv")
     os.chdir(tmpdir)
     cmd = [
-        "conda",
-        "run",
-        "-n",
-        "cn.mops",
         "Rscript",
         "--vanilla",
         script_path,
@@ -90,10 +78,6 @@ def test_normalize_reads_count_without_chrXchrY(tmpdir):
     out_file = pjoin(tmpdir, "cohort_reads_count.norm.csv")
     os.chdir(tmpdir)
     cmd = [
-        "conda",
-        "run",
-        "-n",
-        "cn.mops",
         "Rscript",
         "--vanilla",
         script_path,

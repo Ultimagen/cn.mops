@@ -19,10 +19,6 @@ def test_merge_reads_count_sample_to_cohort(tmpdir):
     out_file = pjoin(tmpdir, "merged_cohort_reads_count.csv")
     os.chdir(tmpdir)
     cmd = [
-        "conda",
-        "run",
-        "-n",
-        "cn.mops",
         "Rscript",
         "--vanilla",
         script_path,

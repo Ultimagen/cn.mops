@@ -15,10 +15,6 @@ def test_cnv_calling_using_cnmops(tmpdir):
     out_file = pjoin(tmpdir, "cohort.cnmops.cnvs.csv")
     os.chdir(tmpdir)
     cmd = [
-        "conda",
-        "run",
-        "-n",
-        "cn.mops",
         "Rscript",
         "--vanilla",
         script_path,
