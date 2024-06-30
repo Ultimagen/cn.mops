@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 
 resources_dir = get_resource_dir(__file__)
-script_path = "cnv/get_reads_count_from_bam.R"
+script_path = "/cnv/get_reads_count_from_bam.R"
 
 
 def test_get_reads_count_from_bam(tmpdir):
