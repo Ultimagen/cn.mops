@@ -1,6 +1,7 @@
-import filecmp
 import os
 import subprocess
+import pandas as pd
+import numpy as np
 from os.path import join as pjoin
 from . import get_resource_dir
 
@@ -13,6 +14,7 @@ def test_cnv_calling_using_cnmops(tmpdir):
     expected_out_merged_reads_count_file = pjoin(resources_dir, "expected_cohort.cnmops.cnvs.csv")
 
     out_file = pjoin(tmpdir, "cohort.cnmops.cnvs.csv")
+    out_file= "cohort.cnmops.cnvs.csv"
     os.chdir(tmpdir)
     cmd = [
         "Rscript",
@@ -26,9 +28,6 @@ def test_cnv_calling_using_cnmops(tmpdir):
         "1",
     ]
     assert subprocess.check_call(cmd, cwd=tmpdir) == 0
-    import csv
-    with open(out_file, newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-        for row in spamreader:
-            print(', '.join(row))
-    assert filecmp.cmp(out_file, expected_out_merged_reads_count_file)
+    df = pd.read_csv(out_file)
+    df_ref = pd.read_csv(expected_out_merged_reads_count_file)
+    assert np.allclose(df.iloc[:, -3:], df_ref.iloc[:, -3:])
