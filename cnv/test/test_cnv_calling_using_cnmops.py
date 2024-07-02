@@ -29,4 +29,4 @@ def test_cnv_calling_using_cnmops(tmpdir):
     assert subprocess.check_call(cmd, cwd=tmpdir) == 0
     df = pd.read_csv(out_file)
     df_ref = pd.read_csv(expected_out_merged_reads_count_file)
-    assert np.allclose(df.iloc[:, -3:], df_ref.iloc[:, -3:])
+    assert np.allclose(df, df_ref)
