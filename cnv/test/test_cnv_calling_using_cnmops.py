@@ -14,7 +14,6 @@ def test_cnv_calling_using_cnmops(tmpdir):
     expected_out_merged_reads_count_file = pjoin(resources_dir, "expected_cohort.cnmops.cnvs.csv")
 
     out_file = pjoin(tmpdir, "cohort.cnmops.cnvs.csv")
-    out_file= "cohort.cnmops.cnvs.csv"
     os.chdir(tmpdir)
     cmd = [
         "Rscript",
