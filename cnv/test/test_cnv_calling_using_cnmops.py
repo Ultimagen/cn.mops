@@ -29,4 +29,15 @@ def test_cnv_calling_using_cnmops(tmpdir):
     assert subprocess.check_call(cmd, cwd=tmpdir) == 0
     df = pd.read_csv(out_file)
     df_ref = pd.read_csv(expected_out_merged_reads_count_file)
-    assert np.allclose(df, df_ref)
+    # Separate numeric and string columns
+    numeric_cols = df.select_dtypes(include=[np.number]).columns
+    string_cols = df.select_dtypes(include=[object]).columns
+
+    # Compare numeric columns using np.allclose
+    numeric_comparison = np.allclose(df[numeric_cols], df_ref[numeric_cols])
+
+    # Compare string columns using regular equality
+    string_comparison = (df[string_cols] == df_ref[string_cols]).all().all()
+
+    # Combine the results
+    assert numeric_comparison and string_comparison
