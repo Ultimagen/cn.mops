@@ -249,7 +249,9 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 		norm=1, normType="poisson",sizeFactor="mean",normQu=0.25, quSizeFactor=0.75,
 		upperThreshold=0.5,lowerThreshold=-0.9,
 		minWidth=3,segAlgorithm="fast",minReadCount=5,useMedian=FALSE,
-		returnPosterior=FALSE,moderate_amplifications=FALSE,...){
+		returnPosterior=FALSE,...){
+	
+	#browser()
 	
 	############ check input ##################################################
 	if(any(class(input)=="GRanges")){
@@ -509,6 +511,8 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 				parallel::stopCluster(cl)
 			}
 			
+			#browser()
+			
 			#resSegm <- lapply(resSegm,function(x) x <- x[order(x$chr,x$start), ])
 			segDf <- cbind(do.call(rbind,resSegm),
 					rep(colnames(X),sapply(resSegm,nrow)))
@@ -566,35 +570,17 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 				chrIdx <- chrDf[chrom,1]:chrDf[chrom,2]
 				
 				if (parallel==0){
-					if(moderate_amplifications){
-						resSegmList[[chrom]] <- apply(sINI[chrIdx, ,drop=FALSE],2,
-							segment,
-							minSeg=minWidth,
-							alpha=0.065,
-							segMedianT=c(0.25,-0.5),...)	
-					}
-					else {
-						resSegmList[[chrom]] <- apply(sINI[chrIdx, ,drop=FALSE],2,
+					resSegmList[[chrom]] <- apply(sINI[chrIdx, ,drop=FALSE],2,
 							segment,
 							minSeg=minWidth,...)
-					}
 				} else {
-					
-					if(moderate_amplifications){
-						cl <- parallel::makeCluster(as.integer(parallel),type="SOCK")
-						parallel::clusterEvalQ(cl,"segment")
-						resSegmList[[chrom]] <- parallel::parApply(cl,sINI[chrIdx, ,drop=FALSE],2,
-								segment,minSeg=minWidth,alpha=0.065,segMedianT=c(0.25,-0.5),...)
-						parallel::stopCluster(cl)
-					}
-					else{
-						cl <- parallel::makeCluster(as.integer(parallel),type="SOCK")
-						parallel::clusterEvalQ(cl,"segment")
-						resSegmList[[chrom]] <- parallel::parApply(cl,sINI[chrIdx, ,drop=FALSE],2,
-								segment,minSeg=minWidth,...)
-						parallel::stopCluster(cl)
-					}
+					cl <- parallel::makeCluster(as.integer(parallel),type="SOCK")
+					parallel::clusterEvalQ(cl,"segment")
+					resSegmList[[chrom]] <- parallel::parApply(cl,sINI[chrIdx, ,drop=FALSE],2,
+							segment,minSeg=minWidth,...)
+					parallel::stopCluster(cl)
 				}
+				
 				segDfTmp <- cbind(do.call(rbind,resSegmList[[chrom]]),
 						"sample"=rep(colnames(X),
 								sapply(resSegmList[[chrom]],nrow)))
