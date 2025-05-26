@@ -571,7 +571,7 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 							segment,
 							minSeg=minWidth,
 							alpha=0.065,
-							segMedianT=c(0.25,-0.5),...)	
+							segMedianT=c(0.25,-0.3),...)	
 					}
 					else {
 						resSegmList[[chrom]] <- apply(sINI[chrIdx, ,drop=FALSE],2,
@@ -584,7 +584,7 @@ cn.mops <- function(input,I = c(0.025,0.5,1,1.5,2,2.5,3,3.5,4),
 						cl <- parallel::makeCluster(as.integer(parallel),type="SOCK")
 						parallel::clusterEvalQ(cl,"segment")
 						resSegmList[[chrom]] <- parallel::parApply(cl,sINI[chrIdx, ,drop=FALSE],2,
-								segment,minSeg=minWidth,alpha=0.065,segMedianT=c(0.25,-0.5),...)
+								segment,minSeg=minWidth,alpha=0.065,segMedianT=c(0.25,-0.3),...)
 						parallel::stopCluster(cl)
 					}
 					else{
